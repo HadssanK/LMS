@@ -10,11 +10,11 @@ export const clerkWebhooks = async (req, res) => {
         // Webhook verification ko filhal hatao (Postman ke liye)
         const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
         try {
-            // await whook.verify(JSON.stringify(req.body), {
-            //     "svix-id": req.headers["svix-id"],
-            //     "svix-timestamp": req.headers["svix-timestamp"],
-            //     "svix-signature": req.headers["svix-signature"],
-            // });
+            await whook.verify(JSON.stringify(req.body), {
+                "svix-id": req.headers["svix-id"],
+                "svix-timestamp": req.headers["svix-timestamp"],
+                "svix-signature": req.headers["svix-signature"],
+            });
             console.log("✅ Webhook Verified Successfully");
         } catch (verificationError) {
             console.error("❌ Webhook Verification Failed:", verificationError);
