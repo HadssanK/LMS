@@ -7,8 +7,8 @@ export const clerkWebhooks = async (req, res) => {
     try {
         console.log("📩 Webhook Received:", req.body); // ✅ Webhook data log
 
+        // Webhook verification ko filhal hatao (Postman ke liye)
         const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
-
         try {
             await whook.verify(JSON.stringify(req.body), {
                 "svix-id": req.headers["svix-id"],
@@ -33,8 +33,8 @@ export const clerkWebhooks = async (req, res) => {
         switch (type) {
             case "user.created": {
                 const UserData = {
-                    _id: new mongoose.Types.ObjectId(data.id), // ✅ Ensure ID is MongoDB ObjectId
-                    email: data.email_addresses?.[0]?.email_address || "No Email", // ✅ Handle missing email
+                    _id: new mongoose.Types.ObjectId(), // MongoDB ObjectId generate karo
+                    email: data.email_addresses?.[0]?.email_address || "No Email",
                     name: data.full_name || "No Name",
                     imageUrl: data.profile_image_url || "",
                 };
@@ -42,41 +42,33 @@ export const clerkWebhooks = async (req, res) => {
                 console.log("🆕 Creating User:", UserData);
 
                 await User.create(UserData);
-                return res.status(200).json({ message: "User Created" });
+                return res.status(200).json({ message: "User Created", user: UserData });
             }
 
             case "user.updated": {
-                const UserData = {
-                    email: data.email_addresses?.[0]?.email_address || "No Email",
-                    name: data.full_name || "No Name",
-                    imageUrl: data.profile_image_url || "",
-                };
-
-                console.log("🔄 Updating User ID:", data.id, "with", UserData);
-
+                console.log("🔄 Updating User:", data.id);
                 const updatedUser = await User.findByIdAndUpdate(
-                    new mongoose.Types.ObjectId(data.id), 
-                    UserData,
-                    { new: true } // ✅ Return updated user
+                    data.id, // ObjectId hataya kyunki Clerk ka ID alag hota hai
+                    {
+                        email: data.email_addresses?.[0]?.email_address || "No Email",
+                        name: data.full_name || "No Name",
+                        imageUrl: data.profile_image_url || "",
+                    },
+                    { new: true }
                 );
 
                 if (!updatedUser) {
-                    console.error("❌ User Not Found for Update:", data.id);
                     return res.status(404).json({ message: "User Not Found" });
                 }
 
-                return res.status(200).json({ message: "User Updated" });
+                return res.status(200).json({ message: "User Updated", user: updatedUser });
             }
 
             case "user.deleted": {
-                console.log("🗑 Deleting User ID:", data.id);
-
-                const deletedUser = await User.findByIdAndDelete(
-                    new mongoose.Types.ObjectId(data.id)
-                );
+                console.log("🗑 Deleting User:", data.id);
+                const deletedUser = await User.findByIdAndDelete(data.id);
 
                 if (!deletedUser) {
-                    console.error("❌ User Not Found for Deletion:", data.id);
                     return res.status(404).json({ message: "User Not Found" });
                 }
 
