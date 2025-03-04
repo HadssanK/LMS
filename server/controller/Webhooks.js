@@ -3,9 +3,9 @@ import User from "../modle/User.js";
 
 // API controller function to manage clerk user with database
 
-export const clerkWebhooks = async (req, res) => {
+export const clerkWebhooks = async (req , res) => {
     try {
-        const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
+        const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET || "whsec_Ny5RF09IZrxDAV1VIHEgPgyIlxes7uaF");
         await whook.verify(JSON.stringify(req.body), {
             "svix-id": req.headers["svix-id"],
             "svix-timestamp": req.headers["svix-timestamp"],
