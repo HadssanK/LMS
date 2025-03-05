@@ -5,7 +5,7 @@ import User from "../modle/User.js";
 
 export const clerkWebhooks = async (req , res) => {
     try {
-        const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET || "whsec_Ny5RF09IZrxDAV1VIHEgPgyIlxes7uaF");
+        const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
         await whook.verify(JSON.stringify(req.body), {
             "svix-id": req.headers["svix-id"],
             "svix-timestamp": req.headers["svix-timestamp"],
