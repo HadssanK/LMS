@@ -1,0 +1,27 @@
+import mongoose from "mongoose";
+import Course from "./course.js";
+
+const PurchesSchema = new mongoose.Schema({
+    courseId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+        required: true
+    },
+    userId : {
+        type : String,
+        ref : "User",
+        required : true
+    },
+    amount : {
+        type : Number,
+        required : true
+    },
+    status:{
+        type : String,
+        enum : ["Pending" , "Completed" , "Failed"],
+        default : "Pending"
+    }
+}, {timestamps : true})
+
+const Purches = mongoose.model("Purches" , PurchesSchema)
+export default Purches;
