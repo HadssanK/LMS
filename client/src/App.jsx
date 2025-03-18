@@ -15,7 +15,7 @@ import StudentEnrolled from './pages/educator/StudentEnrolled'
 import Navbar from './Components/student/Navbar'
 import "quill/dist/quill.snow.css"
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
  const isEducatorRoute = useMatch('/educator/*')
   return (
    <div className='text-default min-h-screen bg-white'> 
@@ -33,7 +33,6 @@ function App() {
            <Route path='add-Course' element={<AddCourse/>} />
            <Route path='my-courses' element={<MyCourses/>} />
            <Route path='student-enrolled' element={<StudentEnrolled/>} />
-
       </Route>
     </Routes>
    </div>
