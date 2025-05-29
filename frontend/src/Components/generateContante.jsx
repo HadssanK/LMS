@@ -18,7 +18,7 @@ const handleGenerate = async () => {
 
   try {
     const response = await axios.post(
-      `$http://localhost:5000/api/generate`,
+      `http://localhost:5000/api/generate`,
       { topic }
     );
     setContent(response.data.generated_text);
