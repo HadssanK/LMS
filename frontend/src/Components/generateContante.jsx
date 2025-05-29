@@ -15,7 +15,7 @@ const Hero = () => {
     setCopied(false); // reset copied state
 
     try {
-      const response = await axios.post("https://my-ai-blog-g4163eckb-hadssanks-projects.vercel.app/api/some-endpoint", { topic });
+      const response = await axios.post("https://my-ai-blog-g4163eckb-hadssanks-projects.vercel.app/api/generate", { topic });
       setContent(response.data.generated_text);
     } catch (error) {
       console.error("Error:", error);
