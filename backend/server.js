@@ -7,8 +7,10 @@ dotenv.config();
 
 const app = express();
 
+const FRONTEND_URL = "https://my-ai-blog-qnbm-5qbl5s48f-hadssanks-projects.vercel.app";
+
 app.use(cors({
-  origin: "https://my-ai-blog-qnbm-mnnhv8017-hadssanks-projects.vercel.app",  // <-- yeh tumhara frontend URL
+  origin: FRONTEND_URL,
   methods: ["POST", "GET", "OPTIONS"],
   allowedHeaders: ["Content-Type", "x-goog-api-key"],
 }));
@@ -16,7 +18,6 @@ app.use(cors({
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
-
 const API_KEY = process.env.GOOGLE_API_KEY;
 
 app.options("/api/generate", cors());
@@ -54,7 +55,7 @@ app.post("/api/generate", async (req, res) => {
 
     res.json({ generated_text: generatedText });
   } catch (error) {
-    console.error("❌ Error generating content:", error.response?.data || error.message);
+    console.error("❌ Error generating content:", error.response?.data || error.message || error);
     res.status(500).json({ error: "Failed to generate content from Gemini" });
   }
 });

@@ -12,10 +12,14 @@ const Hero = () => {
 
     setLoading(true);
     setContent("");
-    setCopied(false); // reset copied state
+    setCopied(false);
 
     try {
-      const response = await axios.post("https://backend-g4163eckb-hadssanks-projects.vercel.app/api/generate", { topic });
+      // **Important:** backend URL updated here
+      const response = await axios.post(
+        "https://my-ai-blog-79ed9oqa9-hadssanks-projects.vercel.app/api/generate",
+        { topic }
+      );
       setContent(response.data.generated_text);
     } catch (error) {
       console.error("Error:", error);
@@ -26,9 +30,11 @@ const Hero = () => {
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(content);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000); // reset after 2 sec
+    if (content) {
+      navigator.clipboard.writeText(content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   return (
