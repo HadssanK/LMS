@@ -6,11 +6,20 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: "https://my-ai-blog-qnbm-mnnhv8017-hadssanks-projects.vercel.app",  // <-- yeh tumhara frontend URL
+  methods: ["POST", "GET", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "x-goog-api-key"],
+}));
+
 app.use(express.json());
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
+
 const API_KEY = process.env.GOOGLE_API_KEY;
+
+app.options("/api/generate", cors());
 
 app.post("/api/generate", async (req, res) => {
   const { topic } = req.body;
@@ -32,7 +41,7 @@ app.post("/api/generate", async (req, res) => {
       {
         headers: {
           "Content-Type": "application/json",
-          "x-goog-api-key": API_KEY, // ✅ sahi tarika for API key
+          "x-goog-api-key": API_KEY,
         },
       }
     );
@@ -51,5 +60,5 @@ app.post("/api/generate", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Server is running on http://localhost:${PORT}`);
+  console.log(`✅ Server is running on port ${PORT}`);
 });
