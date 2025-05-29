@@ -7,10 +7,21 @@ dotenv.config();
 
 const app = express();
 
-const FRONTEND_URL = "https://my-ai-blog-qnbm-5qbl5s48f-hadssanks-projects.vercel.app";
+const allowedOrigins = [
+  "http://localhost:3000", // React local dev server
+  "https://my-ai-blog-qnbm.vercel.app", // Live frontend origin
+];
 
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like Postman or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["POST", "GET", "OPTIONS"],
   allowedHeaders: ["Content-Type", "x-goog-api-key"],
 }));
@@ -20,14 +31,10 @@ app.use(express.json());
 const PORT = process.env.PORT || 5000;
 const API_KEY = process.env.GOOGLE_API_KEY;
 
-app.options("/api/generate", cors());
-
 app.post("/api/generate", async (req, res) => {
   const { topic } = req.body;
 
-  if (!topic) {
-    return res.status(400).json({ error: "Topic is required" });
-  }
+  if (!topic) return res.status(400).json({ error: "Topic is required" });
 
   try {
     const response = await axios.post(
@@ -55,11 +62,11 @@ app.post("/api/generate", async (req, res) => {
 
     res.json({ generated_text: generatedText });
   } catch (error) {
-    console.error("❌ Error generating content:", error.response?.data || error.message || error);
+    console.error("❌ Error generating content:", error.response?.data || error.message);
     res.status(500).json({ error: "Failed to generate content from Gemini" });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Server is running on port ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });

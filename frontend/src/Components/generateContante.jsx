@@ -7,27 +7,28 @@ const Hero = () => {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const handleGenerate = async () => {
-    if (!topic) return;
+//  const API_URL = process.env.REACT_APP_API_URL;
 
-    setLoading(true);
-    setContent("");
-    setCopied(false);
+const handleGenerate = async () => {
+  if (!topic) return;
 
-    try {
-      // **Important:** backend URL updated here
-      const response = await axios.post(
-        "https://my-ai-blog-79ed9oqa9-hadssanks-projects.vercel.app/api/generate",
-        { topic }
-      );
-      setContent(response.data.generated_text);
-    } catch (error) {
-      console.error("Error:", error);
-      setContent("❌ Error generating content. Please check your API or server.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  setContent("");
+  setCopied(false);
+
+  try {
+    const response = await axios.post(
+      `$http://localhost:5000/api/generate`,
+      { topic }
+    );
+    setContent(response.data.generated_text);
+  } catch (error) {
+    console.error("Error:", error);
+    setContent("❌ Error generating content. Please check your API or server.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleCopy = () => {
     if (content) {
