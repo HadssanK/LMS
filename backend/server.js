@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:3000", // React local dev server
+  "http://localhost:5173",  // React local dev server
   "https://my-ai-blog-qnbm.vercel.app", // Live frontend origin
 ];
 
