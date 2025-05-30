@@ -12,19 +12,22 @@ const allowedOrigins = [
   "https://my-ai-blog-qnbm.vercel.app", // Live frontend origin
 ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like Postman or curl)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["POST", "GET", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "x-goog-api-key"],
-}));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (Postman, mobile apps, or curl)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.log("❌ Blocked Origin:", origin); // 👈 debug on server
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["POST", "GET", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "x-goog-api-key"],
+  })
+);
+
 
 app.use(express.json());
 
