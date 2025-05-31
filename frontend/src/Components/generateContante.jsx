@@ -8,6 +8,7 @@ const Hero = () => {
   const [copied, setCopied] = useState(false);
 
 //  const API_URL = process.env.REACT_APP_API_URL;
+// const baseURL = "http://localhost:5000";
 
 const handleGenerate = async () => {
   if (!topic) return;
@@ -17,10 +18,7 @@ const handleGenerate = async () => {
   setCopied(false);
 
   try {
-    const response = await axios.post(
-      `http://localhost:5000/api/generate`,
-      { topic }
-    );
+    const response = await axios.post(`http://localhost:5000/api/generate`, { topic });
     setContent(response.data.generated_text);
   } catch (error) {
     console.error("Error:", error);
@@ -29,6 +27,7 @@ const handleGenerate = async () => {
     setLoading(false);
   }
 };
+
 
   const handleCopy = () => {
     if (content) {
