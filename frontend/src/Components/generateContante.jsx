@@ -7,7 +7,10 @@ const Hero = () => {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const API_BASE = "http://localhost:5000";
+ const API_BASE = import.meta.env.DEV
+  ? "http://localhost:5000"
+  : "https://my-ai-blog.vercel.app";
+
 
   const handleGenerate = async () => {
     if (!topic) return;
