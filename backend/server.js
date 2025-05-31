@@ -8,9 +8,11 @@ dotenv.config();
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173",  // React local dev server
-  "https://my-ai-blog-qnbm.vercel.app", // Live frontend origin
+  "http://localhost:5173",
+  "https://my-ai-blog-qnbm.vercel.app",   // ✅ Already present
+  "https://my-ai-blog-qnbm-19w597s8o-hadssanks-projects.vercel.app" // ✅ Add this one too (temporary/preview URL)
 ];
+
 
 app.use(cors({
   origin: function (origin, callback) {
