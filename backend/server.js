@@ -1,4 +1,3 @@
-
 import express from "express";
 import cors from "cors";
 import axios from "axios";
@@ -9,9 +8,9 @@ dotenv.config();
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173", // Local React dev
-  "https://my-ai-blog-qnbm.vercel.app", // Live frontend
-  undefined, // Allow mobile browsers that send no origin
+  "http://localhost:5173", // Local React dev server
+  "https://my-ai-blog-qnbm.vercel.app", // Live frontend (you may have multiple here)
+  "https://my-ai-blog.vercel.app"
 ];
 
 app.use(
@@ -73,4 +72,3 @@ app.post("/api/generate", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
-

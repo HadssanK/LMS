@@ -4,14 +4,14 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const Hero = () => {
-  const [topic, setTopic] = useState("");
+ const [topic, setTopic] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const API_BASE = import.meta.env.DEV
+  const API_BASE = import.meta.env.MODE === "development"
     ? "http://localhost:5000"
-    : "https://my-ai-blog.vercel.app";
+    : "https://my-ai-blog-api.vercel.app"; // 👈 Replace with your actual deployed backend URL
 
   const handleGenerate = async () => {
     if (!topic) return;
@@ -38,7 +38,6 @@ const Hero = () => {
       setTimeout(() => setCopied(false), 2000);
     }
   };
-
   return (
     <section id="generate" className="w-full bg-gray-900 py-16 px-4 md:px-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
