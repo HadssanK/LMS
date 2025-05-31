@@ -8,25 +8,23 @@ dotenv.config();
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173", // Local React dev server
-  "https://my-ai-blog-qnbm.vercel.app", // Live frontend (you may have multiple here)
-  "https://my-ai-blog.vercel.app"
+  "http://localhost:5173",  // React local dev server
+  "https://my-ai-blog-qnbm.vercel.app", // Live frontend origin
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        console.log("❌ Blocked Origin:", origin);
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["POST", "GET", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "x-goog-api-key"],
-  })
-);
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like Postman or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["POST", "GET", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "x-goog-api-key"],
+}));
 
 app.use(express.json());
 
