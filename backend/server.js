@@ -1,3 +1,4 @@
+
 import express from "express";
 import cors from "cors";
 import axios from "axios";
@@ -8,18 +9,18 @@ dotenv.config();
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173",  // React local dev server
-  "https://my-ai-blog-qnbm.vercel.app", // Live frontend origin
+  "http://localhost:5173", // Local React dev
+  "https://my-ai-blog-qnbm.vercel.app", // Live frontend
+  undefined, // Allow mobile browsers that send no origin
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (Postman, mobile apps, or curl)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        console.log("❌ Blocked Origin:", origin); // 👈 debug on server
+        console.log("❌ Blocked Origin:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
@@ -27,7 +28,6 @@ app.use(
     allowedHeaders: ["Content-Type", "x-goog-api-key"],
   })
 );
-
 
 app.use(express.json());
 
@@ -73,3 +73,4 @@ app.post("/api/generate", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
+

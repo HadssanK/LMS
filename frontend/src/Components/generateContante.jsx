@@ -1,3 +1,5 @@
+
+
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -7,10 +9,9 @@ const Hero = () => {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
- const API_BASE = import.meta.env.DEV
-  ? "http://localhost:5000"
-  : "https://my-ai-blog.vercel.app";
-
+  const API_BASE = import.meta.env.DEV
+    ? "http://localhost:5000"
+    : "https://my-ai-blog.vercel.app";
 
   const handleGenerate = async () => {
     if (!topic) return;
@@ -43,7 +44,7 @@ const Hero = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div>
           <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-tight">
-            Create Smarter Content with{" "}
+            Create Smarter Content with {" "}
             <span className="text-indigo-300">AI</span>
           </h1>
           <p className="mt-4 text-indigo-200 text-lg max-w-md">
