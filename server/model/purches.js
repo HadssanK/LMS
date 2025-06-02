@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Course from "./course.js";
+
 
 const PurchesSchema = new mongoose.Schema({
     courseId: {
