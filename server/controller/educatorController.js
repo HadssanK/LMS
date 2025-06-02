@@ -1,10 +1,10 @@
 import {clerkClient} from '@clerk/express';
 // import { urlencoded } from 'express';
-import Course from '../modle/course.js';
+import Course from '../model/course.js';
 import {v2 as cloudinary} from 'cloudinary';
 import mongoose from 'mongoose';
-import Purches from '../modle/purches.js';
-import User from '../modle/User.js';
+import Purches from '../model/purches.js';
+import User from '../model/User.js';
 
 export const updateRoleEducator = async (req , res)=>{
     try{

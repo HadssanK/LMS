@@ -1,4 +1,4 @@
-import Course from "../modle/course.js";  // ek baar hi import karo
+import Course from "../model/course.js";  // ek baar hi import karo
 
 export const getAllCourses = async (req, res) => {
   try {

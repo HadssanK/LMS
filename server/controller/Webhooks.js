@@ -1,8 +1,8 @@
 import { Webhook } from "svix";
-import User from "../modle/User.js";
+import User from "../model/User.js";
 import Stripe from "stripe";
-import Course from "../modle/course.js";
-import Purches from "../modle/purches.js";
+import Course from "../model/course.js";
+import Purches from "../model/purches.js";
 import dotenv from "dotenv";
 dotenv.config();
 // API controller function to manage clerk user with database
