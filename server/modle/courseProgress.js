@@ -1,4 +1,4 @@
-import mongoose from "mangoose"
+import mongoose from "mongoose";
 
 const courseProgressSchema = new mongoose.Schema({
     userId:{type:String , required:true},

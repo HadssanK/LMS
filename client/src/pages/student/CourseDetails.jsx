@@ -6,6 +6,8 @@ import { assets } from "../../assets/assets";
 import humanizeDuration from "humanize-duration";
 import Footer from "../../Components/student/Footer";
 import YouTube from "react-youtube";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 
 const CourseDetails = () => {
@@ -18,16 +20,32 @@ const CourseDetails = () => {
   const {
     allCourses,
     isAlreadyEnrolled,
+    setIsAlreadyEnrolled,
     currency,
     calculateRating,
     CalculateChapterTime,
     CalculateCourseDuration,
     CalculateNoOfLectures,
+    backendUrl,
+    userData,
+    getToken
   } = useContext(AppContext);
 
-  const fetchCourseData = () => {
-    const findCourse = allCourses.find((course) => course._id === id);
-    setCourseData(findCourse);
+  const fetchCourseData =async () => {
+   try {
+    const {data} = await axios.get(`http://localhost:5000/api/course/` + id)
+    console.log(data);
+    
+    if(data.success){
+      setCourseData(data.courseData)
+    }
+    else{
+    toast.error(data.message)
+
+    }
+   } catch (error) {
+    toast.error(error.message)
+   }
   };
   const toggleSection = (index) =>{
     setOpenSections((prev)=>(
@@ -35,10 +53,52 @@ const CourseDetails = () => {
     ))
   }
 
+  const enrollCourse = async () => {
+  try {
+    if (!userData) {
+      return toast.warning("Login to Enroll");
+    }
+    if (isAlreadyEnrolled) {
+      return toast.warning("Already Enrolled");
+    }
+    const token = await getToken();
+    const { data } = await axios.post(
+       "http://localhost:5000/api/user/purches",
+      { courseId: courseData._id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (data.success) {
+      const { session_url } = data;
+      setIsAlreadyEnrolled(true); 
+      window.location.replace(session_url);
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
   useEffect(() => {
+    
     fetchCourseData();
   }, [allCourses]);
 
+  // console.log(userData.enrolledCourses.includes(courseData._id));
+   useEffect(() => {
+    if(userData && courseData){
+     setIsAlreadyEnrolled(userData.enrolledCourses.includes(courseData._id))
+     
+    }
+   
+   
+    
+  }, [userData , courseData]);
+  
   return courseData ? (
     <>
       <div className="flex md:flex-row flex-col-reverse gap-10 relative items-start justify-between md:px-36 px-8 md:pt-30 pt-20 text-left">
@@ -86,7 +146,7 @@ const CourseDetails = () => {
           <p className="text-sm">
             {" "}
             Courses by{" "}
-            <span className="text-blue-600 underline">HassanAcedmy</span>
+            <span className="text-blue-600 underline">{courseData.educator.name}</span>
           </p>
           <div className="pt-8 text-gray-800">
             <h2 className="text-xl font-semibold">Course Structure</h2>
@@ -179,7 +239,7 @@ const CourseDetails = () => {
                 <p>{CalculateNoOfLectures(courseData)} lessons</p>
               </div>
              </div>
-             <button className="md:mt-6 mt-4 w-full py-3 rounded bg-blue-600 text-white font-medium">{isAlreadyEnrolled ? 'Already Enrolled' : 'Enroll Now'}</button>
+             <button onClick={enrollCourse} className="md:mt-6 mt-4 w-full py-3 rounded bg-blue-600 text-white font-medium">{isAlreadyEnrolled ? 'Already Enrolled' : 'Enroll Now'}</button>
 
               <div className="pt-6">
              <p className="md:text-xl text-lg font-medium text-gray-800">what's in the course?</p>
@@ -191,9 +251,7 @@ const CourseDetails = () => {
               <li>Certificate of completion.</li>
              </ul>
 
-                  </div>             
-
-
+            </div>             
           </div>
         </div>
       </div>

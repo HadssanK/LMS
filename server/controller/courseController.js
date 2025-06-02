@@ -1,36 +1,32 @@
-import Course from "../modle/course.js";
-import course from "../modle/course.js";
-
+import Course from "../modle/course.js";  // ek baar hi import karo
 
 export const getAllCourses = async (req, res) => {
   try {
-    const courses = await course.find({ ispublished: true })
+    const courses = await Course.find({ isPublished: true })  // Correct key: isPublished
       .select(["-courseContent", "-enrolledStudents"])
       .populate({ path: "educator" });
-    res.json({ success: true,  courses });
+
+    res.json({ success: true, courses });
   } catch (error) {
     res.json({ message: error.message, success: false });
   }
 };
 
-// get course by id
-
 export const getCourseId = async (req, res) => {
   const { id } = req.params;
   try {
-    const courseData = await course.findById(id).populate({ path: "educator" });
+    const courseData = await Course.findById(id).populate({ path: "educator" });
 
-    // remove url if ispreview is false
     courseData.courseContent.forEach((chapter) => {
-        chapter.chapterContent.forEach((lecture) => {
-            if (!lecture.isPreview) {
-            lecture.lectureUrl = "";
-            }
-        });
+      chapter.chapterContent.forEach((lecture) => {
+        if (!lecture.isPreviewFree) {   // yahan bhi aapka schema me 'isPreviewFree' hai, 'isPreview' nahi
+          lecture.lectureUrl = "";
+        }
+      });
     });
+
     res.json({ success: true, courseData });
   } catch (error) {
     res.json({ message: error.message, success: false });
   }
 };
-
