@@ -8,10 +8,9 @@ dotenv.config();
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://my-ai-blog-qnbm.vercel.app",
+  'http://localhost:5173',
+  'https://lms-frontend-e0sw.onrender.com'
 ];
-
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {

@@ -9,7 +9,10 @@ const Hero = () => {
 
 //  const API_URL = process.env.REACT_APP_API_URL;
 // const baseURL = "http://localhost:5000";
-
+const backendUrl =
+    import.meta.env.MODE === "development"
+      ? "http://localhost:4000"
+      : "https://lms-backend-8b9s.onrender.com";
 const handleGenerate = async () => {
   if (!topic) return;
 
@@ -18,7 +21,7 @@ const handleGenerate = async () => {
   setCopied(false);
 
   try {
-    const response = await axios.post(`http://localhost:5000/api/generate`, { topic });
+    const response = await axios.post(`${backendUrl}/api/generate`, { topic });
     setContent(response.data.generated_text);
   } catch (error) {
     console.error("Error:", error);
@@ -27,7 +30,6 @@ const handleGenerate = async () => {
     setLoading(false);
   }
 };
-
 
   const handleCopy = () => {
     if (content) {
