@@ -8,23 +8,22 @@ dotenv.config();
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173",  // React local dev server
-  "https://my-ai-blog-qnbm.vercel.app", // Live frontend origin
+  "http://localhost:5173",
+  "https://my-ai-blog-qnbm.vercel.app",
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like Postman or curl)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  methods: ["POST", "GET", "OPTIONS"],
+  methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "x-goog-api-key"],
 }));
+
 
 app.use(express.json());
 

@@ -18,19 +18,12 @@ import Footer from './Components/Footer';
 const App = () => {
   return (
     <>
-    {/* // <Routes>
-    //   <Route path="/" element={<Layout />}>
-    //     <Route index element={<Hero />} />
-    //     <Route path="/About" element={<About />} />
-    //     <Route path="blog" element={<Blogs />} />
-    //   </Route>
-    // </Routes> */}
      <Navbar/>
     <HeroSection/>
     <Features/>
     <HowItWorks/>
     <ContentGenerator/>
-    <PurchesPlane/>
+    {/* <PurchesPlane/> */}
     <Testimonials/>
     <FAQ/>
     <CtaSection/>

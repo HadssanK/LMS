@@ -24,7 +24,7 @@ export default function Navbar() {
               { label: "Home", to: "home" },
               { label: "Features", to: "features" },
               { label: "How It Works", to: "howitworks" },
-              { label: "Pricing", to: "pricing" },
+              
               { label: "Testimonials", to: "testimonials" },
               { label: "FAQs", to: "faqs" },
              
@@ -57,12 +57,12 @@ export default function Navbar() {
             >
               Generate
             </ScrollLink>
-            <a
+            {/* <a
               href="#"
               className="bg-white text-gray-900 px-4 py-2 rounded font-semibold hover:bg-gray-200 transition"
             >
               Sign Up
-            </a>
+            </a> */}
           </div>
 
           {/* Mobile menu button */}
@@ -85,7 +85,7 @@ export default function Navbar() {
             { label: "Home", to: "home" },
             { label: "Features", to: "features" },
             { label: "How It Works", to: "howitworks" },
-            { label: "Pricing", to: "pricing" },
+          
             { label: "Testimonials", to: "testimonials" },
             { label: "FAQs", to: "faqs" },
             { label: "Generate", to: "generate" },
@@ -105,12 +105,12 @@ export default function Navbar() {
             </ScrollLink>
           ))}
 
-          <a
+          {/* <a
             href="#"
             className="block bg-white text-gray-900 px-4 py-2 rounded font-semibold text-center hover:bg-gray-200 transition"
           >
             Sign Up
-          </a>
+          </a> */}
         </div>
       )}
     </nav>
